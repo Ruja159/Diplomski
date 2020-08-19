@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Diplomski.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200819142657_DeleteScores")]
-    partial class DeleteScores
+    [Migration("20200819152636_Innit")]
+    partial class Innit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,6 +94,9 @@ namespace Diplomski.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("AddedTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("BloodTypeId")
                         .HasColumnType("int");
 
@@ -103,7 +106,16 @@ namespace Diplomski.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Mail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Socre")
