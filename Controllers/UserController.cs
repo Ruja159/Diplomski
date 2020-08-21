@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Diplomski.Forms;
 using Diplomski.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diplomski.Controllers
 {
@@ -11,7 +13,7 @@ namespace Diplomski.Controllers
     public class UserController : Controller
     {
         private readonly DatabaseContext _context;
-        public UserController (DatabaseContext context)
+        public UserController(DatabaseContext context)
         {
             _context = context;
         }
@@ -22,16 +24,25 @@ namespace Diplomski.Controllers
             List<User> users = _context.Users.ToList();
             return Json(users);
         }
+        [HttpGet("{id}")]
+        public JsonResult List(int id)
+        {
+            User user = _context.Users.Include(u => u.BloodType)
+            .FirstOrDefault(u => u.Id == id);
 
+            return Json(user.GeneralSelect());
+        }
         [HttpPost]
         public JsonResult Add([FromForm] UserForm userForm)
         {
-            User user = new User(); 
+            User user = new User();
             user.Name = userForm.Name;
             user.LastName = userForm.LastName;
             user.BloodTypeId = userForm.BloodTypeId;
             user.CityId = userForm.CityId;
-            
+            user.AddedTime = DateTime.Now;
+            user.LastUpdate = DateTime.Now;
+
             //add user to database in order to generate id;
             _context.Users.Add(user);
             _context.SaveChanges();

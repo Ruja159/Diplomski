@@ -25,6 +25,19 @@ namespace Diplomski.Models
         public DateTime AddedTime {get; set;}
         public DateTime LastUpdate {get; set;}
 
+        public object GeneralSelect()
+        {
+            return new {
+                Id = Id,
+                Name = Name,
+                LastName = LastName,
+                Email = Email,
+                BloodType = BloodType,
+                AddedTime = AddedTime,
+                LastUpdate = LastUpdate
+            };
+        }
+
 
         
 
