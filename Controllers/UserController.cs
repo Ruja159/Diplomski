@@ -26,7 +26,7 @@ namespace Diplomski.Controllers
         [HttpPost]
         public JsonResult Add([FromForm] UserForm userForm)
         {
-            User user = new User();
+            User user = new User(); 
             user.Name = userForm.Name;
             user.LastName = userForm.LastName;
             user.BloodTypeId = userForm.BloodTypeId;

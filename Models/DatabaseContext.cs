@@ -61,6 +61,6 @@ namespace Diplomski.Models
         public DbSet<Post> Posts { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<BloodType> BloodType { get; set; }
-      
+       
     }
 }
