@@ -21,13 +21,15 @@ namespace Diplomski.Controllers
         [HttpGet]
         public JsonResult List()
         {
-            List<User> users = _context.Users.ToList();
+            List<User> users = _context.Users.Include(u => u.BloodType)
+            .Include (c => c.City).ToList();
             return Json(users);
         }
         [HttpGet("{id}")]
         public JsonResult List(int id)
         {
             User user = _context.Users.Include(u => u.BloodType)
+            .Include (c => c.City)
             .FirstOrDefault(u => u.Id == id);
 
             return Json(user.GeneralSelect());
@@ -42,6 +44,7 @@ namespace Diplomski.Controllers
             user.CityId = userForm.CityId;
             user.AddedTime = DateTime.Now;
             user.LastUpdate = DateTime.Now;
+            user.Password = user.Password;
 
             //add user to database in order to generate id;
             _context.Users.Add(user);
@@ -55,9 +58,24 @@ namespace Diplomski.Controllers
             User user = _context.Users.FirstOrDefault(u => u.Id == userForm.Id);
             user.Name = userForm.Name;
             user.LastName = userForm.LastName;
+            user.BloodType = user.BloodType;
+            user.City = user.City;
+
 
             _context.SaveChanges();
             return Json(user);
         }
+    [HttpDelete("{id}")]
+    public JsonResult Delete(int id)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.Id == id);
+
+             _context.Users.Remove(user);
+            _context.SaveChanges();
+
+
+            return Json(user);
+        }
+
     }
 }

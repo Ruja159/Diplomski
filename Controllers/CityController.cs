@@ -23,6 +23,18 @@ namespace Diplomski.Controllers
             List<City> city = _context.Cities.ToList();
             return Json(city);
         }
+
+         [HttpGet("{id}")]
+
+        public JsonResult List(int id)
+        {
+           
+            City city = _context.Cities.FirstOrDefault(u => u.Id == id);
+
+            return Json(city);
+        }
+
+
         [HttpPost]
         public JsonResult Add([FromForm] CityForm cityForm)
         {
@@ -46,6 +58,18 @@ namespace Diplomski.Controllers
             _context.SaveChanges();
             return Json(city);
 
+        }
+
+        [HttpDelete("{postalcode}")]
+        public JsonResult Delete(int postalcode)
+        {
+            City city = _context.Cities.FirstOrDefault(p => p.PostalCode == postalcode);
+
+             _context.Cities.Remove(city);
+            _context.SaveChanges();
+
+
+            return Json(city);
         }
     }
 }

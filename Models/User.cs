@@ -34,7 +34,8 @@ namespace Diplomski.Models
                 Email = Email,
                 BloodType = BloodType,
                 AddedTime = AddedTime,
-                LastUpdate = LastUpdate
+                LastUpdate = LastUpdate,
+                City = City
             };
         }
 

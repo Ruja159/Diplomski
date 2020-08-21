@@ -13,7 +13,7 @@ namespace Diplomski.Controllers
     {
         private readonly DatabaseContext _context;
 
-        public BloodTypeController(DatabaseContext context) 
+        public BloodTypeController(DatabaseContext context)
         {
             _context = context;
         }
@@ -26,17 +26,30 @@ namespace Diplomski.Controllers
             return Json(bloodType);
         }
 
+        [HttpGet("{id}")]
+
+        public JsonResult List(int id)
+        {
+
+            BloodType bloodType = _context.BloodType.FirstOrDefault(u => u.Id == id);
+
+            return Json(bloodType);
+        }
+
+
         [HttpPost]
         public JsonResult Add([FromForm] BloodTypeForm bloodTypeForm)
         {
             BloodType bloodType = new BloodType();
-            bloodType.Name=bloodTypeForm.Name;
+            bloodType.Name = bloodTypeForm.Name;
             _context.BloodType.Add(bloodType);
             _context.SaveChanges();
 
-             return Json(bloodType);
-    
+            return Json(bloodType);
+
         }
+
+
 
     }
 
