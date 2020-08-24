@@ -13,21 +13,24 @@ namespace Diplomski.Models
         public string Name { get; set; }
 
         public string LastName { get; set; }
-        public string Email {get; set;}
+        public string Email { get; set; }
         public int? BloodTypeId { get; set; }
         [ForeignKey("BloodTypeId")]
         public virtual BloodType BloodType { get; set; }
         public int? CityId { get; set; }
         [ForeignKey("CityId")]
         public virtual City City { get; set; }
-        public int Socre {get; set;}
-        public string Password {get; set;}
-        public DateTime AddedTime {get; set;}
-        public DateTime LastUpdate {get; set;}
+        public int Socre { get; set; }
+        public string Password { get; set; }
+        public DateTime AddedTime { get; set; }
+        public DateTime LastUpdate { get; set; }
+
+        public bool Admin { get; set; }
 
         public object GeneralSelect()
         {
-            return new {
+            return new
+            {
                 Id = Id,
                 Name = Name,
                 LastName = LastName,
@@ -38,9 +41,19 @@ namespace Diplomski.Models
                 City = City
             };
         }
+        public object GeneralSelectPost()
+        {
+            return new
+            {
+                Id = Id,
+                Name = Name,
+                LastName = LastName,
+            };
+        }
 
 
-        
+
+
 
 
 

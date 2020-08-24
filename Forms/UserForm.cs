@@ -8,5 +8,6 @@ namespace Diplomski.Forms
         public int? CityId { get; set; }
         public int? BloodTypeId { get; set; }
         
+        
     }
 }

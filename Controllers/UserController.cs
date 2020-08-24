@@ -52,10 +52,10 @@ namespace Diplomski.Controllers
 
             return Json(user);
         }
-        [HttpPut]
-        public JsonResult Edit([FromForm] UserForm userForm)
+        [HttpPut("{id}")]
+        public JsonResult Edit([FromForm] UserForm userForm ,int id)
         {
-            User user = _context.Users.FirstOrDefault(u => u.Id == userForm.Id);
+            User user = _context.Users.FirstOrDefault(u => u.Id == id);
             user.Name = userForm.Name;
             user.LastName = userForm.LastName;
             user.BloodType = user.BloodType;

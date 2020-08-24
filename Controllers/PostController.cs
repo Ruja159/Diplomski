@@ -3,6 +3,7 @@ using System.Linq;
 using Diplomski.Forms;
 using Diplomski.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diplomski.Controllers
 {
@@ -20,7 +21,8 @@ namespace Diplomski.Controllers
 
         public JsonResult List()
         {
-            List<Post> post = _context.Posts.ToList();
+            List<Post> post = _context.Posts.Include(u => u.User)
+            .Include(b => b.BloodType).Include(c => c.City).ToList();
             return Json(post);
         }
 
@@ -29,10 +31,10 @@ namespace Diplomski.Controllers
 
         public JsonResult List(int id)
         {
-            Post post = _context.Posts
+            Post post = _context.Posts.Include(u => u.User).Include(b => b.BloodType).Include(c => c.City)
             .FirstOrDefault(p => p.Id == id);
 
-            return Json(post);
+            return Json(post.GeneralPost());
         }
 
         [HttpPost]
@@ -53,7 +55,20 @@ namespace Diplomski.Controllers
             return Json(post);
         }
 
+        [HttpPut]
 
+        public JsonResult Edit([FromForm] PostForm postForm)
+        {
+            Post post = _context.Posts.FirstOrDefault(p => p.Id == postForm.Id);
+            post.UserId = postForm.UserId;
+            post.BloodTypeId = postForm.BloodTypeId;
+            post.CityId = postForm.CityId;
+            post.Description = postForm.Description;
+            post.Status = postForm.Status;
+
+            _context.SaveChanges();
+            return Json(post);
+        }
 
 
     }

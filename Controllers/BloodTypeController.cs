@@ -48,7 +48,16 @@ namespace Diplomski.Controllers
             return Json(bloodType);
 
         }
+        [HttpPut]
+        public JsonResult Edit([FromForm] BloodTypeForm bloodTypeForm)
+        {
+            BloodType bloodType = _context.BloodType.FirstOrDefault(b => b.Id == bloodTypeForm.Id);
+            bloodType.Name = bloodTypeForm.Name;
+          
 
+            _context.SaveChanges();
+            return Json(bloodType);
+        }
 
 
     }
