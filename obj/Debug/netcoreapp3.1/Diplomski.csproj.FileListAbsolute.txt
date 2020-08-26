@@ -57,3 +57,6 @@ C:\Users\PC\Documents\Diplomski\obj\Debug\netcoreapp3.1\Diplomski.csproj.CopyCom
 C:\Users\PC\Documents\Diplomski\obj\Debug\netcoreapp3.1\Diplomski.dll
 C:\Users\PC\Documents\Diplomski\obj\Debug\netcoreapp3.1\Diplomski.pdb
 C:\Users\PC\Documents\Diplomski\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\PC\Documents\Diplomski\bin\Debug\netcoreapp3.1\reactdiplomski\package-lock.json
+C:\Users\PC\Documents\Diplomski\bin\Debug\netcoreapp3.1\reactdiplomski\package.json
+C:\Users\PC\Documents\Diplomski\bin\Debug\netcoreapp3.1\reactdiplomski\public\manifest.json
