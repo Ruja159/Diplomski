@@ -1,7 +1,9 @@
 import React from 'react';
 import Login from './Login';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Col, Row } from 'react-bootstrap';
+import Home from './Home'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Layout from './Layout';
 
 class App extends React.Component {
 
@@ -22,10 +24,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <Login authUpdate={this.authUpdate} />
+      <Container fluid="lg">
+        <Row>
+          <Col>
 
-      </div>
+            {this.state.auth ? <Layout /> : <Login authUpdate={this.authUpdate} />}
+          </Col>
+        </Row>
+      </Container>
+
     )
   }
 }
