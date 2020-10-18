@@ -32,10 +32,11 @@ class Login extends React.Component {
 
         const formData = new FormData();
 
-        for (var k in params) {
-            formData.append(k, params[k]);
-        }
-
+        // for (var k in params) {
+        //     formData.append(k, params[k]);
+        // }
+        const content = JSON.stringify(params);
+        
         fetch("/api/auth", {
             method: "POST",
             // mode: "no-cors",
@@ -43,12 +44,14 @@ class Login extends React.Component {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            body: formData,
+            body: content,
         })
         .then(response => {
             response.json()
             .then((jsonData) => {
                 console.log(jsonData);
+                //TODO: Napraviti da se state updatuje, pozvati funkciju 
+                this.props.authUpdate(jsonData.success);
             });
         })
 

@@ -22,7 +22,7 @@ namespace Diplomski.Controllers
         }
 
         [HttpPost]
-        public JsonResult Login([FromForm] LoginForm loginForm )
+        public JsonResult Login([FromBody] LoginForm loginForm )
         {
             User user = _context.Users.FirstOrDefault(u => u.Email == loginForm.Email);
 
