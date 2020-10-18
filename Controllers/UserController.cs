@@ -5,6 +5,7 @@ using Diplomski.Forms;
 using Diplomski.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Diplomski.Controllers
 {
@@ -12,10 +13,14 @@ namespace Diplomski.Controllers
     [ApiController]
     public class UserController : Controller
     {
+
         private readonly DatabaseContext _context;
-        public UserController(DatabaseContext context)
+        private readonly IConfiguration _configuration;
+        
+        public UserController(DatabaseContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -37,6 +42,12 @@ namespace Diplomski.Controllers
         [HttpPost]
         public JsonResult Add([FromForm] UserForm userForm)
         {
+            if (!userForm.ValidateNew(_context))
+            {
+                return Json(userForm.ValidationErrorResponse(HttpContext));
+            }
+
+            string passwordSalt = _configuration.GetValue<string>("Salt", "");
             User user = new User();
             user.Name = userForm.Name;
             user.LastName = userForm.LastName;
@@ -44,7 +55,9 @@ namespace Diplomski.Controllers
             user.CityId = userForm.CityId;
             user.AddedTime = DateTime.Now;
             user.LastUpdate = DateTime.Now;
-            user.Password = user.Password;
+            user.Password =  Diplomski.Models.User.Hash(userForm.Password, passwordSalt);
+            user.Email = userForm.Email;
+            //nikolaMFFpX1jut6LkPsN9tzCBvDBK8gUsgkGS >> sha256 4562159684523s65fdg4sd9fh8776d5sfh13dsr587hj3s6d5rf132
 
             //add user to database in order to generate id;
             _context.Users.Add(user);

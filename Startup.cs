@@ -39,7 +39,9 @@ namespace Diplomski
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
+
+            // app.UseSession();
 
             app.UseRouting();
 

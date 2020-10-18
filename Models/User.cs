@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Diplomski.Models
 {
@@ -22,6 +24,7 @@ namespace Diplomski.Models
         public virtual City City { get; set; }
         public int Socre { get; set; }
         public string Password { get; set; }
+        public bool Gender { get; set; }
         public DateTime AddedTime { get; set; }
         public DateTime LastUpdate { get; set; }
 
@@ -51,7 +54,14 @@ namespace Diplomski.Models
             };
         }
 
+        public static string Hash(string password, string passwordSalt)
+        {
+            SHA256 sha256Hash = SHA256.Create();
+            byte[] passwordBytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password + passwordSalt));
+            string passwordHash = Convert.ToBase64String(passwordBytes);
+            return passwordHash;
 
+        }
 
 
 
