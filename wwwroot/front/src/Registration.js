@@ -15,7 +15,8 @@ class Registration extends React.Component {
             address: "",
             password: "",
             bloodType: "",
-            passwordRepeated: ""
+            passwordRepeated: "",
+            bloodTypes: []
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -56,6 +57,21 @@ class Registration extends React.Component {
 
             .catch((error) => {
                 console.error("Error : ", error);
+            })
+
+    }
+    componentDidMount() {
+        fetch("/api/bloodtype", {
+            method: "GET",
+            // mode: "no-cors",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => {
+                response.json()
+                    .then(json => this.setState({ bloodTypes: json }))
             })
 
     }
@@ -143,9 +159,9 @@ class Registration extends React.Component {
                                     <Form.Control
                                         value={this.state.passwordRepeated}
                                         type="password"
-                                        placeholder="Password" 
-                                        name= "passwordRepeated"
-                                        onChange={this.handleChange}/>
+                                        placeholder="Password"
+                                        name="passwordRepeated"
+                                        onChange={this.handleChange} />
                                 </Form.Group>
 
                                 <Form.Group className="gender">
@@ -182,14 +198,12 @@ class Registration extends React.Component {
                                         custom
                                     >
                                         <option value="0">Choose...</option>
-                                        <option value="1">0+</option>
-                                        <option value="2">0-</option>
-                                        <option value="3">A+</option>
-                                        <option value="4">A-</option>
-                                        <option value="5">B+</option>
-                                        <option value="6">B-</option>
-                                        <option value="7">AB+</option>
-                                        <option value="8">AB-</option>
+                                        {this.state.bloodTypes.map((index) =>  
+                                                  <option key={index.id} >{index.name}</option>
+                                        )}
+                                        
+                                 
+                                        
                                     </Form.Control>
                                 </Form.Group>
 
