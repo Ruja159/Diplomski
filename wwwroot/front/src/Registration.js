@@ -1,6 +1,6 @@
 import React from 'react'
-import RegistrationComponent from './RegistrationComponent'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { Button, Form, Row, Col, Container } from 'react-bootstrap'
 
 
 
@@ -8,17 +8,57 @@ class Registration extends React.Component {
     constructor() {
         super()
         this.state = {
-            firstName: "",
+            name: "",
             lastName: "",
             email: "",
-            gender: "",
+            gender: true,
             address: "",
             password: "",
-            bloodType: ""
+            bloodType: "",
+            passwordRepeated: ""
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.genderChange = this.genderChange.bind(this)
     }
 
+    handleSubmit() {
+
+
+        const params = {
+            Name: this.state.name,
+            LastName: this.state.lastName,
+            Email: this.state.email,
+            Password: this.state.password,
+            Gender: this.state.gender,
+            Address: this.state.address,
+            BloodType: this.state.bloodType,
+            PasswordRepeated: this.state.passwordRepeated
+        }
+
+        const content = JSON.stringify(params);
+
+        fetch("/api/user", {
+            method: "POST",
+            // mode: "no-cors",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: content,
+        })
+            .then(response => {
+                response.json()
+                    .then((jsonData) => {
+                        console.log(jsonData);
+                    });
+            })
+
+            .catch((error) => {
+                console.error("Error : ", error);
+            })
+
+    }
 
     handleChange(event) {
         const { name, value } = event.target
@@ -27,13 +67,147 @@ class Registration extends React.Component {
         })
     }
 
+    genderChange() {
+        this.setState({
+            gender: !this.state.gender
+        });
+    }
+
 
     render() {
-        return(
+        return (
+            <main>
+                <Container>
+                    <Row>
+                        <Col></Col>
 
-            <RegistrationComponent 
-            handleChange={this.handleChange}
-            data={this.state} />
+                        <Col>
+
+                            <Form >
+                                <Form.Group>
+                                    <Form.Label>First Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="First Name"
+                                        value={this.state.name}
+                                        onChange={this.handleChange}
+                                        name="name"
+                                    />
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Last Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Last Name"
+                                        value={this.state.lastName}
+                                        onChange={this.handleChange}
+                                        name="lastName" />
+                                </Form.Group>
+
+                                <Form.Group controlId="formGridAddress1">
+                                    <Form.Label>Address</Form.Label>
+                                    <Form.Control
+                                        placeholder="Banja Luka, neka ulica"
+                                        type="text"
+                                        value={this.state.address}
+                                        onChange={this.handleChange}
+                                        name="address" />
+                                </Form.Group>
+
+
+                                <Form.Group controlId="formHorizontalEmail">
+                                    <Form.Label>Email Address</Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="Example@gmail.com"
+                                        value={this.state.email}
+                                        onChange={this.handleChange}
+                                        name="email"
+                                    />
+                                </Form.Group>
+
+
+                                <Form.Group controlId="formGroupPassword">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="Password"
+                                        value={this.state.password}
+                                        onChange={this.handleChange}
+                                        name="password" />
+                                </Form.Group>
+
+                                <Form.Group controlId="formGroupPassword">
+                                    <Form.Label>Password(again)</Form.Label>
+                                    <Form.Control
+                                        value={this.state.passwordRepeated}
+                                        type="password"
+                                        placeholder="Password" 
+                                        name= "passwordRepeated"
+                                        onChange={this.handleChange}/>
+                                </Form.Group>
+
+                                <Form.Group className="gender">
+                                    <Form.Label>Select your gender:</Form.Label>
+                                    <Form.Check type="radio"
+                                        name="gender"
+                                        value={false}
+                                        checked={this.state.gender === false}
+                                        onChange={this.genderChange}
+                                        label="Male"
+                                    />
+                                </Form.Group>
+
+                                <Form.Group className="gender">
+                                    <Form.Check
+                                        type="radio"
+                                        name="gender"
+                                        value={true}
+                                        checked={this.state.gender === true}
+                                        onChange={this.genderChange}
+                                        label="Female"
+                                    />
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">Blood Type</Form.Label>
+                                    <Form.Control
+                                        as="select"
+                                        className="my-1 mr-sm-2"
+                                        id="inlineFormCustomSelectPref"
+                                        name="bloodType"
+                                        value={this.state.bloodType}
+                                        onChange={this.handleChange}
+                                        custom
+                                    >
+                                        <option value="0">Choose...</option>
+                                        <option value="1">0+</option>
+                                        <option value="2">0-</option>
+                                        <option value="3">A+</option>
+                                        <option value="4">A-</option>
+                                        <option value="5">B+</option>
+                                        <option value="6">B-</option>
+                                        <option value="7">AB+</option>
+                                        <option value="8">AB-</option>
+                                    </Form.Control>
+                                </Form.Group>
+
+
+
+                                <Form.Group>
+                                    <Button onClick={this.handleSubmit} className="" size="" block>Submit</Button>
+                                </Form.Group>
+                            </Form>
+                        </Col>
+
+                        <Col></Col>
+                    </Row>
+
+                </Container>
+
+
+            </main>
         )
     }
 }

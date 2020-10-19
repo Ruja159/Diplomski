@@ -4,6 +4,7 @@ import { Button, Container, Col, Row } from 'react-bootstrap';
 import Home from './Home'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Layout from './Layout';
+import Registration from './Registration';
 
 class App extends React.Component {
 
@@ -24,14 +25,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container fluid="lg">
-        <Row>
-          <Col>
-
-            {this.state.auth ? <Layout /> : <Login authUpdate={this.authUpdate} />}
-          </Col>
-        </Row>
-      </Container>
+      <div>
+        <Registration />
+        {/* {this.state.auth ? <Layout /> : <Login authUpdate={this.authUpdate} />} */}
+      </div>
 
     )
   }

@@ -40,7 +40,7 @@ namespace Diplomski.Controllers
             return Json(user.GeneralSelect());
         }
         [HttpPost]
-        public JsonResult Add([FromForm] UserForm userForm)
+        public JsonResult Add([FromBody] UserForm userForm)
         {
             if (!userForm.ValidateNew(_context))
             {
