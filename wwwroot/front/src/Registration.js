@@ -96,7 +96,7 @@ class Registration extends React.Component {
                 <Container>
                     <Row>
                         <Col></Col>
-
+                        <div class="form">
                         <Col>
 
                             <Form >
@@ -214,6 +214,7 @@ class Registration extends React.Component {
                                 </Form.Group>
                             </Form>
                         </Col>
+                        </div>
 
                         <Col></Col>
                     </Row>

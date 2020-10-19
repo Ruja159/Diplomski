@@ -5,6 +5,7 @@ import Home from './Home'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Layout from './Layout';
 import Registration from './Registration';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
 
@@ -26,9 +27,15 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Registration />
         {/* {this.state.auth ? <Layout /> : <Login authUpdate={this.authUpdate} />} */}
+
+            <Route exact path="/registration" component={Registration} />
+            <Route exact path="/login" > <Login history={this.props.history} authUpdate={this.authUpdate} /></Route>
+            <Route exact path="/" > <Layout auth={this.state.auth} /> </Route>
+
       </div>
+
+
 
     )
   }

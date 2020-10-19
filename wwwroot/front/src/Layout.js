@@ -1,29 +1,21 @@
 import React from 'react'
-import { Navbar, Form, Container, Nav, FormControl, Button } from 'react-bootstrap'
-import Home from './Home'
+import Home from './Home';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import About from './About'
+import Menu from './Menu'
+import Score from './Score'
+import Registration from './Registration';
 
 class Layout extends React.Component {
     render() {
+        console.log(this.props);
         return (
-            <Container>
-                <Navbar bg="dark" variant="dark">
-                    <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-                    <Nav className="mr-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
-                    </Nav>
-                    <Form inline>
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-info">Search</Button>
-                    </Form>
-                </Navbar>
-                <Home />
-
-            </Container>
-
+            <div>
+                {this.props.auth ? <Menu></Menu> : this.props.history.push("/login")}
+            </div>
         )
     }
 }
 
-export default Layout
+export default withRouter(Layout)

@@ -1,6 +1,10 @@
 import React from 'react'
 import { Container, Form, Breadcrumb, Col, Row, Button } from 'react-bootstrap';
 import './index.css'
+import {Redirect,BrowserRouter as Router, Route,Switch} from 'react-router-dom'
+import {withRouter} from 'react-router';
+import Registration from './Registration'
+
 
 class Login extends React.Component {
     constructor() {
@@ -11,8 +15,11 @@ class Login extends React.Component {
         }
         this.handleChange=this.handleChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
+        this.handleLink=this.handleLink.bind(this);
 
     }
+
+
 
     handleChange(event) {
         const { name, value } = event.target;
@@ -32,9 +39,6 @@ class Login extends React.Component {
 
         const formData = new FormData();
 
-        // for (var k in params) {
-        //     formData.append(k, params[k]);
-        // }
         const content = JSON.stringify(params);
         
         fetch("/api/auth", {
@@ -52,6 +56,10 @@ class Login extends React.Component {
                 console.log(jsonData);
                 //TODO: Napraviti da se state updatuje, pozvati funkciju 
                 this.props.authUpdate(jsonData.success);
+                if (jsonData.success == true)
+                {
+                    this.redirectToLayout();
+                }
             });
         })
 
@@ -59,6 +67,14 @@ class Login extends React.Component {
             console.error("Error : ", error);
         })
 
+    }
+
+    handleLink(){
+        this.props.history.push("/registration")
+    }
+
+    redirectToLayout(){
+        this.props.history.push("/");
     }
 
 
@@ -108,22 +124,17 @@ class Login extends React.Component {
                                 <div class="line" ></div>
 
                                 <Form.Group>
-                                    <Button variant="success" size="lg">Create New Account</Button>
+                                    <Button onClick={this.handleLink} variant="success" size="lg">Create New Account</Button>
 
                                 </Form.Group>
-
-
                             </Col>
                         </div>
                     </Row>
-
                 </Container>
             </main>
         )
     }
 
-
-
 }
 
-export default Login
+export default withRouter(Login)
