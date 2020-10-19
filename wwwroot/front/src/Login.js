@@ -58,6 +58,8 @@ class Login extends React.Component {
                 this.props.authUpdate(jsonData.success);
                 if (jsonData.success == true)
                 {
+
+                    this.props.sessionUpdate(jsonData.userId);
                     this.redirectToLayout();
                 }
             });

@@ -33,7 +33,7 @@ namespace Diplomski.Controllers
                 if ( Diplomski.Models.User.Hash(loginForm.Password, passwordSalt) == user.Password)
                 {
                     // HttpContext.Session.Set("userId", JsonSerializer.SerializeToUtf8Bytes(user.Id));
-                    return Json(new {success=true, message="Logged in successfully"});
+                    return Json(new {success=true, message="Logged in successfully", userId=user.Id});
                 }             
             }
             return Json(new {success=false, message="Wrong username or password"});

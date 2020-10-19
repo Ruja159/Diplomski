@@ -1,5 +1,7 @@
 import React from 'react';
-import { Table } from 'react-bootstrap'
+import { Container, Table, FormControl, Button, Form } from 'react-bootstrap'
+// import { Navbar, Form, Container, Nav, FormControl, Button } from 'react-bootstrap'
+
 
 
 class Home extends React.Component {
@@ -22,44 +24,49 @@ class Home extends React.Component {
         })
             .then(response => {
                 response.json()
-                .then(json => this.setState({posts: json}))
+                    .then(json => this.setState({ posts: json }))
             })
-        
+
     }
 
     render() {
         const listItems = [];
-        for(let item of this.state.posts)
-        {
+        for (let item of this.state.posts) {
             listItems.push(
-            <tr>
-            <th></th>
-            <th>{item.user.name}</th>
-            <th>{item.user.lastName}</th>
-            <th>{item.bloodType.name}</th>
-            <th>{item.city.name}</th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th>{item.user.name}</th>
+                    <th>{item.user.lastName}</th>
+                    <th>{item.bloodType.name}</th>
+                    <th>{item.city.name}</th>
+                </tr>
             );
         }
 
         return (
-            <Table striped bordered hover variant="dark">
-                
+            <Container>
+                <Form inline>
+                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                    <Button variant="outline-info">Search</Button>
+                </Form>
+                <Table striped bordered hover variant="dark">
 
-                
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Blood Type</th>
-                        <th>City</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {listItems}
-                </tbody>
-            </Table>
+
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Blood Type</th>
+                            <th>City</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listItems}
+                    </tbody>
+                </Table>
+            </Container>
         );
     }
 }

@@ -15,7 +15,9 @@ class App extends React.Component {
       auth: false
     }
     this.authUpdate = this.authUpdate.bind(this)
-  }
+    this.handleLogout = this.handleLogout.bind(this);
+    this.sessionUpdate = this.sessionUpdate.bind(this);
+  };
 
   authUpdate(value) {
     this.setState({
@@ -24,15 +26,24 @@ class App extends React.Component {
     console.log("auth update");
   }
 
+  handleLogout() {
+    this.setState({auth: false});
+  }
+
+  sessionUpdate(value) {
+    this.setState({userId: value });
+  }
+
   render() {
     return (
       <div>
         {/* {this.state.auth ? <Layout /> : <Login authUpdate={this.authUpdate} />} */}
-
+          <Switch>
             <Route exact path="/registration" component={Registration} />
-            <Route exact path="/login" > <Login history={this.props.history} authUpdate={this.authUpdate} /></Route>
-            <Route exact path="/" > <Layout auth={this.state.auth} /> </Route>
+            <Route exact path="/login" > <Login history={this.props.history} authUpdate={this.authUpdate} sessionUpdate={this.sessionUpdate} /></Route>
+            <Route exact path="*" > <Layout auth={this.state.auth} userId={this.state.userId} handleLogout={this.handleLogout}/> </Route>
 
+          </Switch>
       </div>
 
 

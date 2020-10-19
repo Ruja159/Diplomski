@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 
 
 class Menu extends React.Component {
+    constructor(){
+        super()
+    }
     render() {
         return (
 
@@ -15,19 +18,19 @@ class Menu extends React.Component {
 
                     </Link>
                     <Nav className="mr-auto">
-                        <Link to="/about">
-                            <Nav.Link href="#about">About</Nav.Link>
+                        <Link to="/profile">
+                            <Nav.Link href="#profile">Profile</Nav.Link>
                         </Link>
                         <Link to="/score">
                             <Nav.Link href="#score">Score</Nav.Link>
                         </Link>
-                        <Link>
+                        {/* <Link>
                             <Nav.Link href="#logout">Log Out</Nav.Link>
-                        </Link>
+                        </Link> */}
                     </Nav>
                     <Form inline>
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-info">Search</Button>
+                        <Button onClick={this.props.handleLogout}>Logout</Button>
+
                     </Form>
                 </Navbar>
      
