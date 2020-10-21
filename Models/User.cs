@@ -38,7 +38,7 @@ namespace Diplomski.Models
                 Name = Name,
                 LastName = LastName,
                 Email = Email,
-                BloodType = BloodType,
+                BloodType = BloodType.Name,
                 AddedTime = AddedTime,
                 LastUpdate = LastUpdate,
                 City = City

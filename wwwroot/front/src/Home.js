@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Table, FormControl, Button, Form } from 'react-bootstrap'
+import { Container, Table, FormControl, Button, Form, Row, Col } from 'react-bootstrap'
 // import { Navbar, Form, Container, Nav, FormControl, Button } from 'react-bootstrap'
 
 
@@ -44,11 +44,17 @@ class Home extends React.Component {
         }
 
         return (
-            <Container>
-                <Form inline>
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                    <Button variant="outline-info">Search</Button>
-                </Form>
+            // <Container>
+            <Form inline>
+
+                <Row >
+                    <Col></Col>
+                    <Col className="md-auto">  <Button variant='success'>Add Post</Button></Col>
+                    <Col className="col-lg-2">   <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                        <Button variant="outline-info">Search</Button></Col>
+                </Row>
+
+
                 <Table striped bordered hover variant="dark">
 
 
@@ -66,7 +72,8 @@ class Home extends React.Component {
                         {listItems}
                     </tbody>
                 </Table>
-            </Container>
+            </Form>
+            // </Container>
         );
     }
 }
