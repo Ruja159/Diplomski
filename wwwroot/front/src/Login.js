@@ -1,9 +1,11 @@
 import React from 'react'
 import { Container, Form, Breadcrumb, Col, Row, Button } from 'react-bootstrap';
 import './index.css'
-import {Redirect,BrowserRouter as Router, Route,Switch} from 'react-router-dom'
-import {withRouter} from 'react-router';
+import { Redirect, BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { withRouter } from 'react-router';
 import Registration from './Registration'
+import DonateBlood from './Img/DonateBlood.jpg'
+import Footer from './Footer'
 
 
 class Login extends React.Component {
@@ -13,9 +15,9 @@ class Login extends React.Component {
             email: "",
             password: ""
         }
-        this.handleChange=this.handleChange.bind(this);
-        this.handleSubmit=this.handleSubmit.bind(this);
-        this.handleLink=this.handleLink.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleLink = this.handleLink.bind(this);
 
     }
 
@@ -40,7 +42,7 @@ class Login extends React.Component {
         const formData = new FormData();
 
         const content = JSON.stringify(params);
-        
+
         fetch("/api/auth", {
             method: "POST",
             // mode: "no-cors",
@@ -50,90 +52,97 @@ class Login extends React.Component {
             },
             body: content,
         })
-        .then(response => {
-            response.json()
-            .then((jsonData) => {
-                console.log(jsonData);
-                //TODO: Napraviti da se state updatuje, pozvati funkciju 
-                this.props.authUpdate(jsonData.success);
-                if (jsonData.success == true)
-                {
+            .then(response => {
+                response.json()
+                    .then((jsonData) => {
+                        console.log(jsonData);
+                        //TODO: Napraviti da se state updatuje, pozvati funkciju 
+                        this.props.authUpdate(jsonData.success);
+                        if (jsonData.success == true) {
 
-                    this.props.sessionUpdate(jsonData.userId);
-                    this.redirectToLayout();
-                }
-            });
-        })
+                            this.props.sessionUpdate(jsonData.userId);
+                            this.redirectToLayout();
+                        }
+                    });
+            })
 
-        .catch((error) => {
-            console.error("Error : ", error);
-        })
+            .catch((error) => {
+                console.error("Error : ", error);
+            })
 
     }
 
-    handleLink(){
+    handleLink() {
         this.props.history.push("/registration")
     }
 
-    redirectToLayout(){
+    redirectToLayout() {
         this.props.history.push("/");
     }
 
 
     render() {
         return (
-            <main>
-                <Container>
-                    <Row>
-                        <Col>
-                        </Col>
-                        <Col></Col>
-                        <div class="form">
+            <div>
+                <div class="donateBlood">
+                    <Container>
+                        <Row>
                             <Col>
+                            </Col>
+                            <Col>
+                            </Col>
+                            <div class="form">
+                                <Col>
 
-                                <Form>
-                                    <Form.Group controlId="formHorizontalEmail">
-                                        <Form.Label>Email Address</Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            placeholder="Example@gmail.com"
-                                            value={this.state.email}
-                                            name="email"
-                                            onChange={this.handleChange}
-                                        />
-                                    </Form.Group>
+                                    <Form>
+                                        <Form.Group controlId="formHorizontalEmail">
+                                            <Form.Label>Email Address</Form.Label>
+                                            <Form.Control
+                                                type="email"
+                                                placeholder="Example@gmail.com"
+                                                value={this.state.email}
+                                                name="email"
+                                                onChange={this.handleChange}
+                                            />
+                                        </Form.Group>
 
 
-                                    <Form.Group controlId="formGroupPassword">
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            placeholder="Password"
-                                            value={this.state.password}
-                                            name="password"
-                                            onChange={this.handleChange} />
+                                        <Form.Group controlId="formGroupPassword">
+                                            <Form.Label>Password</Form.Label>
+                                            <Form.Control
+                                                type="password"
+                                                placeholder="Password"
+                                                value={this.state.password}
+                                                name="password"
+                                                onChange={this.handleChange} />
 
-                                    </Form.Group>
+                                        </Form.Group>
+
+                                        <Form.Group>
+                                            <Button onClick={this.handleSubmit} block>Log In</Button>
+                                        </Form.Group>
+                                    </Form>
+                                    <Breadcrumb>
+                                        <Breadcrumb.Item href="">Forgot your password?</Breadcrumb.Item>
+
+                                    </Breadcrumb>
+                                    <div class="line" ></div>
 
                                     <Form.Group>
-                                        <Button onClick={this.handleSubmit} block>Log In</Button>
+                                        <Button onClick={this.handleLink} variant="success" size="lg">Create New Account</Button>
+
                                     </Form.Group>
-                                </Form>
-                                <Breadcrumb>
-                                    <Breadcrumb.Item href="">Forgot your password?</Breadcrumb.Item>
-
-                                </Breadcrumb>
-                                <div class="line" ></div>
-
-                                <Form.Group>
-                                    <Button onClick={this.handleLink} variant="success" size="lg">Create New Account</Button>
-
-                                </Form.Group>
-                            </Col>
+                                </Col>
+                            </div>
+                        </Row>
+                    </Container>
+                    <div class="textblood">
+                            <b>Donate blood</b>
+                            <h3>Connect with people with the world <br></br>around you on Donate blood.</h3>
                         </div>
-                    </Row>
-                </Container>
-            </main>
+                </div>
+                <Footer />
+            </div>
         )
     }
 

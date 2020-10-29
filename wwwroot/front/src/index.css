@@ -1,10 +1,18 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+body {
+
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  min-height: 100vh;
 }
 
 code {
@@ -20,6 +28,7 @@ code {
   text-align: center;
 }
 
+
  .form {
   align-items: center;
   background-color: #fff;
@@ -33,3 +42,33 @@ code {
   padding-bottom: 28px;
   width: 396px;
 } 
+.footer {
+  background-color: #1e272e;
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.footer p {
+  text-align: center;
+}
+
+.donateBlood {
+  background-image: url('./Img/DonateBlood.jpg');
+  height: 820px;
+  width: 100%;
+}
+.textblood{
+  padding:50px;
+}
+.textblood b {
+  font-size: 50px;
+  padding-top: 150px;
+  text-align: center;
+  margin-left: 950px;
+  color:red;
+}
+.textblood h3{
+  text-align: center;
+  margin-left: 750px;
+}

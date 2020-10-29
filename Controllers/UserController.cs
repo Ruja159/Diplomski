@@ -57,7 +57,7 @@ namespace Diplomski.Controllers
             user.LastUpdate = DateTime.Now;
             user.Password =  Diplomski.Models.User.Hash(userForm.Password, passwordSalt);
             user.Email = userForm.Email;
-            //nikolaMFFpX1jut6LkPsN9tzCBvDBK8gUsgkGS >> sha256 4562159684523s65fdg4sd9fh8776d5sfh13dsr587hj3s6d5rf132
+      
 
             //add user to database in order to generate id;
             _context.Users.Add(user);
