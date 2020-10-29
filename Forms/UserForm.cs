@@ -9,8 +9,8 @@ namespace Diplomski.Forms
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public int? CityId { get; set; }
-        public int? BloodTypeId { get; set; }
+        public string CityId { get; set; }
+        public string BloodTypeId { get; set; }
 
         public bool Gender { get; set; }
 

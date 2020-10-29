@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Profile from './Profile'
 import Menu from './Menu'
 import Score from './Score'
-import Registration from './Registration';
 import {withRouter} from 'react-router';
 
 
@@ -13,7 +12,7 @@ function LayoutComponents(props) {
         <Router>
             <Menu handleLogout={props.handleLogout}/>
             <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/"><Home {...props} /></Route>
                 <Route exact path="/profile" > <Profile {...props} /> </Route>
                 <Route exact path="/score" component={Score} />
             </Switch>

@@ -22,7 +22,7 @@ namespace Diplomski.Controllers
         public JsonResult List()
         {
             List<Post> post = _context.Posts.Include(u => u.User)
-            .Include(b => b.BloodType).Include(c => c.City).ToList();
+            .Include(b => b.BloodType).Include(c => c.City).Where(p => p.Status == 0).ToList();
             return Json(post);
         }
 
@@ -39,12 +39,13 @@ namespace Diplomski.Controllers
 
         [HttpPost]
 
-        public JsonResult Add([FromForm] PostForm postForm)
+        public JsonResult Add([FromBody] PostForm postForm)
         {
+            User user = _context.Users.FirstOrDefault(u => u.Id == postForm.UserId);
             Post post = new Post();
             post.UserId = postForm.UserId;
-            post.BloodTypeId = postForm.BloodTypeId;
-            post.CityId = postForm.CityId;
+            post.BloodTypeId = user.BloodTypeId;
+            post.CityId = user.CityId;
             post.Description = postForm.Description;
             post.Status = postForm.Status;
 
@@ -61,8 +62,8 @@ namespace Diplomski.Controllers
         {
             Post post = _context.Posts.FirstOrDefault(p => p.Id == postForm.Id);
             post.UserId = postForm.UserId;
-            post.BloodTypeId = postForm.BloodTypeId;
-            post.CityId = postForm.CityId;
+            // post.BloodTypeId = postForm.BloodTypeId;
+            // post.CityId = postForm.CityId;
             post.Description = postForm.Description;
             post.Status = postForm.Status;
 

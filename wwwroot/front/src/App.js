@@ -1,7 +1,5 @@
 import React from 'react';
 import Login from './Login';
-import { Button, Container, Col, Row } from 'react-bootstrap';
-import Home from './Home'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Layout from './Layout';
 import Registration from './Registration';

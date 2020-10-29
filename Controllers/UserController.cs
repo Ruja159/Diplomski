@@ -51,8 +51,8 @@ namespace Diplomski.Controllers
             User user = new User();
             user.Name = userForm.Name;
             user.LastName = userForm.LastName;
-            user.BloodTypeId = userForm.BloodTypeId;
-            user.CityId = userForm.CityId;
+            user.BloodTypeId = Int32.Parse(userForm.BloodTypeId);
+            user.CityId = Int32.Parse(userForm.CityId);
             user.AddedTime = DateTime.Now;
             user.LastUpdate = DateTime.Now;
             user.Password =  Diplomski.Models.User.Hash(userForm.Password, passwordSalt);

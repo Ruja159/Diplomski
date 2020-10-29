@@ -1,10 +1,7 @@
 import React from 'react'
 import { Container, Form, Breadcrumb, Col, Row, Button } from 'react-bootstrap';
 import './index.css'
-import { Redirect, BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { withRouter } from 'react-router';
-import Registration from './Registration'
-import DonateBlood from './Img/DonateBlood.jpg'
 import Footer from './Footer'
 
 
