@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Table, FormControl, Button, Form, Row, Col, ButtonToolbar } from 'react-bootstrap'
+import { Modal, Table, FormControl, Button, Form, Row, Col, ButtonToolbar, Card, Container } from 'react-bootstrap'
 // import { Navbar, Form, Container, Nav, FormControl, Button } from 'react-bootstrap'
 import AddPostModal from './AddPostModal'
 
@@ -27,7 +27,7 @@ class Home extends React.Component {
         })
             .then(response => {
                 response.json()
-                    .then(json => 
+                    .then(json =>
                         this.setState({ posts: json }))
             })
 
@@ -39,63 +39,70 @@ class Home extends React.Component {
 
         const listItems = [];
         for (let item of this.state.posts) {
-            const editDisabled = this.props.userId == item.userId ? false : true;
+
             listItems.push(
-                <tr>
-                    <th></th>
-                    <th>{item.user.name}</th>
-                    <th>{item.user.lastName}</th>
-                    <th>{item.bloodType.name}</th>
-                    <th>{item.city.name}</th>
-                    <th>{item.description}</th>
-                    <th><Button disabled={editDisabled}>Edit</Button></th>                    
-                </tr>
+                <div>
+                    <Card className="text-center">
+                        <Card.Header>Potrebna krv za {item.whoNeedBlood}</Card.Header>
+                        <Card.Body>
+                            <Card.Title>Potrebna {item.bloodType.name} , Grad {item.city.name}</Card.Title>
+                            <Card.Text>
+                                {item.description}
+                            </Card.Text>
+                            <Button variant="link">Prijavi se</Button>
+                        </Card.Body>
+                        <Card.Footer className="text-muted" className="inline-block">
+                            <div className="d-flex mb-3 example-parent">
+                                <div className="mr-auto p-2 col-example"> Dodao: {item.user.name} {item.user.lastName}</div>
+                                <div className="p-2 col-example"></div>
+                                <div className="p-2 col-example"> Dodan: {new Intl.DateTimeFormat("en-GB", {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "2-digit"
+                                }).format(new Date(item.addedPost))}</div>
+                            </div>
+
+                        </Card.Footer>
+                    </Card>
+
+                    <br />
+                </div>
+
+
             );
         }
 
         return (
-            // <Container>
-            <Form inline>
+            <Container>
+
 
                 <Row >
-                    <Col></Col>
-                    <Col className="md-auto">
-                        <ButtonToolbar>
-                            <Button
-                                variant='success'
-                                onClick={() => this.setState({ addModalShow: true })}
-                            >Add Post</Button>
+                    <Col> <ButtonToolbar>
+                        <Button
+                            variant='success'
+                            onClick={() => this.setState({ addModalShow: true })}
+                        >Add Post</Button>
 
-                            <AddPostModal show={this.state.addModalShow}
-                                onHide={addModalClose} userId={this.props.userId} />
-                        </ButtonToolbar>
+                        <AddPostModal show={this.state.addModalShow}
+                            onHide={addModalClose} userId={this.props.userId} />
+                    </ButtonToolbar>
+                    </Col>
+                    <Col>
 
                     </Col>
-                    <Col className="col-lg-2">   <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-info">Search</Button></Col>
+                    <Col >
+                        <Form inline className="float-right">
+                            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                            <Button variant="outline-info">Search</Button>
+                        </Form>
+                    </Col>
                 </Row>
 
 
-                <Table striped bordered hover variant="dark">
 
 
-
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Blood Type</th>
-                            <th>City</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {listItems}
-                    </tbody>
-                </Table>
-            </Form>
-            // </Container>
+                {listItems}
+            </Container>
         );
     }
 }

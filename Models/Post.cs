@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,9 @@ namespace Diplomski.Models
         public virtual City City { get; set; }
 
         public string Description { get; set; }
+
+        public DateTime AddedPost {get; set;}
+        public string WhoNeedBlood { get; set; }
         public int Status { get; set; }
 
         public object GeneralPost()

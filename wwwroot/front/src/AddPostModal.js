@@ -2,24 +2,34 @@ import React from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 
 class AddPostModal extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             description: "",
             status: 0,
-            user:[]
+            bloodType: "",
+            city: "",
+            user: props.userId,
+            whoneedblood:"",
+            bloodTypes: [],
+            cities: []
         }
-        this.handleChange=this.handleChange.bind(this)
-        this.handleSubmit=this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
 
     handleSubmit() {
 
         const params = {
+            UserId: this.state.user,
+            BloodTypeId: this.state.bloodType,
+            CityId: this.state.city,
             Description: this.state.description,
-            UserId: this.state.user.id,
-            Status: this.state.status
+            Status: this.state.status,
+            WhoNeedBlood: this.state.whoneedblood
+        
+
         }
 
         const content = JSON.stringify(params);
@@ -41,8 +51,38 @@ class AddPostModal extends React.Component {
                     });
             })
 
-            
+
     }
+
+    componentDidMount() {
+        fetch("/api/bloodtype", {
+            method: "GET",
+            // mode: "no-cors",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => {
+                response.json()
+                    .then(json => this.setState({ bloodTypes: json }))
+            })
+
+
+        fetch("/api/city", {
+            method: "GET",
+            // mode: "no-cors",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => {
+                response.json()
+                    .then(json => this.setState({ cities: json }))
+            })
+    }
+
 
 
     handleChange(event) {
@@ -73,8 +113,8 @@ class AddPostModal extends React.Component {
                                 <Form >
 
                                     <Form.Group>
-                                        <Form.Label>Write which bloodtype you need</Form.Label>
-                                       <Form.Control
+                                        <Form.Label>Add Description</Form.Label>
+                                        <Form.Control
                                             type="textarea"
                                             placeholder="Say something..."
                                             value={this.state.description}
@@ -84,7 +124,62 @@ class AddPostModal extends React.Component {
                                     </Form.Group>
 
                                     <Form.Group>
-                                        <Button variant="primary" onClick={this.handleSubmit} > 
+                                        <Form.Label>Name who need blood</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Marko Markovic"
+                                            value={this.state.whoneedblood}
+                                            onChange={this.handleChange}
+                                            name="whoneedblood"
+                                        />
+                                    </Form.Group>
+
+                                    <Form.Group>
+                                        <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">City</Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            className="my-1 mr-sm-2"
+                                            id="inlineFormCustomSelectPref"
+                                            name="city"
+                                            value={this.state.city}
+                                            onChange={this.handleChange}
+                                            custom
+                                        >
+                                            <option value="0">Choose...</option>
+                                            {this.state.cities.map((index) =>
+                                                <option value={index.id} >{index.name}</option>
+                                            )}
+
+
+
+                                        </Form.Control>
+                                    </Form.Group>
+
+
+                                    <Form.Group>
+                                        <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">Blood Type</Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            className="my-1 mr-sm-2"
+                                            id="inlineFormCustomSelectPref"
+                                            name="bloodType"
+                                            value={this.state.bloodType}
+                                            onChange={this.handleChange}
+                                            custom
+                                        >
+                                            <option value="0">Choose...</option>
+                                            {this.state.bloodTypes.map((index) =>
+                                                <option value={index.id} >{index.name}</option>
+                                            )}
+
+
+
+                                        </Form.Control>
+                                    </Form.Group>
+
+
+                                    <Form.Group>
+                                        <Button variant="primary" onClick={this.handleSubmit}  >
                                             Add Post
                                         </Button>
                                     </Form.Group>

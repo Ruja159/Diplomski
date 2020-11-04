@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Diplomski.Forms;
@@ -44,9 +45,11 @@ namespace Diplomski.Controllers
             User user = _context.Users.FirstOrDefault(u => u.Id == postForm.UserId);
             Post post = new Post();
             post.UserId = postForm.UserId;
-            post.BloodTypeId = user.BloodTypeId;
-            post.CityId = user.CityId;
+            post.BloodTypeId = Int32.Parse(postForm.BloodTypeId);
+            post.CityId = Int32.Parse(postForm.CityId);
             post.Description = postForm.Description;
+            post.AddedPost = DateTime.Now;
+            post.WhoNeedBlood= postForm.WhoNeedBlood;
             post.Status = postForm.Status;
 
             //add post to database in order to generate id;
