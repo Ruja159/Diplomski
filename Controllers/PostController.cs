@@ -49,7 +49,7 @@ namespace Diplomski.Controllers
             post.CityId = Int32.Parse(postForm.CityId);
             post.Description = postForm.Description;
             post.AddedPost = DateTime.Now;
-            post.WhoNeedBlood= postForm.WhoNeedBlood;
+            post.WhoNeedBlood = postForm.WhoNeedBlood;
             post.Status = postForm.Status;
 
             //add post to database in order to generate id;
@@ -61,13 +61,14 @@ namespace Diplomski.Controllers
 
         [HttpPut]
 
-        public JsonResult Edit([FromForm] PostForm postForm)
+        public JsonResult Edit([FromBody] PostForm postForm)
         {
             Post post = _context.Posts.FirstOrDefault(p => p.Id == postForm.Id);
             post.UserId = postForm.UserId;
-            // post.BloodTypeId = postForm.BloodTypeId;
-            // post.CityId = postForm.CityId;
+            post.BloodTypeId = Int32.Parse(postForm.BloodTypeId);
+            post.CityId = Int32.Parse(postForm.CityId);
             post.Description = postForm.Description;
+            post.WhoNeedBlood= postForm.WhoNeedBlood;
             post.Status = postForm.Status;
 
             _context.SaveChanges();

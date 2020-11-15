@@ -2,6 +2,8 @@ import React from 'react';
 import { Modal, Table, FormControl, Button, Form, Row, Col, ButtonToolbar, Card, Container } from 'react-bootstrap'
 // import { Navbar, Form, Container, Nav, FormControl, Button } from 'react-bootstrap'
 import AddPostModal from './AddPostModal'
+import EditPost from './EditPost';
+import TicketModal from './TicketModal'
 
 
 
@@ -11,11 +13,15 @@ class Home extends React.Component {
         super()
         this.state = {
             posts: [],
-            addModalShow: false
+            addModalShow: false,
+            addTicketShow: false,
+            editPostShow: false,
+            idPost: ""
         }
-
+        
+        this.addModalClose = () => this.setState({ addModalShow: false, addTicketShow: false, editPostShow: false })
     }
-
+    
     componentDidMount() {
         fetch("/api/post", {
             method: "GET",
@@ -27,15 +33,28 @@ class Home extends React.Component {
         })
             .then(response => {
                 response.json()
-                    .then(json =>
-                        this.setState({ posts: json }))
-            })
-
+                .then(json =>
+                    this.setState({ posts: json }))
+                })
+                
+            }
+            
+    editItems(item) {
+        if (this.props.userId == item.user.id) {
+            return (<div>
+                <Button variant="link" className="probaj"
+                    onClick={() => this.setState({ idPost: item.id, editPostShow: true})}
+                >Izmjeni post</Button>
+            </div>
+            )
+        }
     }
+
 
     render() {
 
-        let addModalClose = () => this.setState({ addModalShow: false })
+
+
 
         const listItems = [];
         for (let item of this.state.posts) {
@@ -44,18 +63,29 @@ class Home extends React.Component {
                 <div>
                     <Card className="text-center">
                         <Card.Header>Potrebna krv za {item.whoNeedBlood}</Card.Header>
-                        <Card.Body>
+                        <Card.Body >
+                            {this.editItems(item)}
                             <Card.Title>Potrebna {item.bloodType.name} , Grad {item.city.name}</Card.Title>
+
                             <Card.Text>
                                 {item.description}
                             </Card.Text>
-                            <Button variant="link">Prijavi se</Button>
+
+                            <Button
+                                variant="link"
+                                onClick={() => this.setState({ addTicketShow: true })}>
+                                Prijavi se
+                            </Button>
+                            <TicketModal
+                                show={this.state.addTicketShow}
+                                onHide={this.addModalClose} userId={this.props.userId} bloodTypeId={item.bloodType.name}
+                                cityName={item.city.name}
+                            />
                         </Card.Body>
-                        <Card.Footer className="text-muted" className="inline-block">
-                            <div className="d-flex mb-3 example-parent">
-                                <div className="mr-auto p-2 col-example"> Dodao: {item.user.name} {item.user.lastName}</div>
-                                <div className="p-2 col-example"></div>
-                                <div className="p-2 col-example"> Dodan: {new Intl.DateTimeFormat("en-GB", {
+                        <Card.Footer className="text-muted">
+                            <div className="d-flex ">
+                                <div className="mr-auto"> Dodao: {item.user.name} {item.user.lastName}</div>
+                                <div > Dodan: {new Intl.DateTimeFormat("en-GB", {
                                     year: "numeric",
                                     month: "long",
                                     day: "2-digit"
@@ -84,7 +114,7 @@ class Home extends React.Component {
                         >Add Post</Button>
 
                         <AddPostModal show={this.state.addModalShow}
-                            onHide={addModalClose} userId={this.props.userId} />
+                            onHide={this.addModalClose} userId={this.props.userId} />
                     </ButtonToolbar>
                     </Col>
                     <Col>
@@ -102,6 +132,8 @@ class Home extends React.Component {
 
 
                 {listItems}
+                <EditPost postId={this.state.idPost}   onHide={this.addModalClose}  show={this.state.editPostShow} />
+
             </Container>
         );
     }

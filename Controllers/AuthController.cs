@@ -34,9 +34,14 @@ namespace Diplomski.Controllers
                 {
                     // HttpContext.Session.Set("userId", JsonSerializer.SerializeToUtf8Bytes(user.Id));
                     return Json(new {success=true, message="Logged in successfully", userId=user.Id});
+                }         
+                 if ( Diplomski.Models.User.Hash(loginForm.Password, passwordSalt) != user.Password)
+                {
+                    // HttpContext.Session.Set("userId", JsonSerializer.SerializeToUtf8Bytes(user.Id));
+                    return Json(new {success=false, messagePassword="You entered the wrong password", userId=user.Id});
                 }             
             }
-            return Json(new {success=false, message="Wrong username or password"});
+            return Json(new {success=false, messageEmail="You entered the wrong Email"});
         }
 
         [HttpGet]

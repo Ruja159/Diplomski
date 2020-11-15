@@ -10,11 +10,13 @@ class Login extends React.Component {
         super()
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            errors: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleLink = this.handleLink.bind(this);
+        this.redirectToForgotPass=this.redirectToForgotPass.bind(this);
 
     }
 
@@ -60,6 +62,9 @@ class Login extends React.Component {
                             this.props.sessionUpdate(jsonData.userId);
                             this.redirectToLayout();
                         }
+                        else {
+                            this.setState({ errors: jsonData })
+                        }
                     });
             })
 
@@ -71,6 +76,10 @@ class Login extends React.Component {
 
     handleLink() {
         this.props.history.push("/registration")
+    }
+
+    redirectToForgotPass(){
+        this.props.history.push("/forgotpassword")
     }
 
     redirectToLayout() {
@@ -92,7 +101,7 @@ class Login extends React.Component {
                                 <Col>
 
                                     <Form>
-                                        <Form.Group controlId="formHorizontalEmail">
+                                        <Form.Group className="text-left" controlId="formHorizontalEmail">
                                             <Form.Label>Email Address</Form.Label>
                                             <Form.Control
                                                 type="email"
@@ -101,10 +110,11 @@ class Login extends React.Component {
                                                 name="email"
                                                 onChange={this.handleChange}
                                             />
+                                            <div class="errors">{this.state.errors.messageEmail}</div>
                                         </Form.Group>
 
 
-                                        <Form.Group controlId="formGroupPassword">
+                                        <Form.Group className="text-left" controlId="formGroupPassword">
                                             <Form.Label>Password</Form.Label>
                                             <Form.Control
                                                 type="password"
@@ -112,6 +122,7 @@ class Login extends React.Component {
                                                 value={this.state.password}
                                                 name="password"
                                                 onChange={this.handleChange} />
+                                            <div class="errors">{this.state.errors.messagePassword}</div>
 
                                         </Form.Group>
 
@@ -119,14 +130,14 @@ class Login extends React.Component {
                                             <Button onClick={this.handleSubmit} block>Log In</Button>
                                         </Form.Group>
                                     </Form>
-                                    <Breadcrumb>
-                                        <Breadcrumb.Item href="">Forgot your password?</Breadcrumb.Item>
 
+                                    <Breadcrumb >
+                                        <Breadcrumb.Item  onClick={this.redirectToForgotPass}>Forgot your password?</Breadcrumb.Item>
                                     </Breadcrumb>
                                     <div class="line" ></div>
 
                                     <Form.Group>
-                                        <Button onClick={this.handleLink} variant="success" size="lg">Create New Account</Button>
+                                        <Button onClick={this.handleLink}  variant="success" size="lg">Create New Account</Button>
 
                                     </Form.Group>
                                 </Col>
@@ -134,9 +145,9 @@ class Login extends React.Component {
                         </Row>
                     </Container>
                     <div class="textblood">
-                            <b>Donate blood</b>
-                            <h3>Connect with people with the world <br></br>around you on Donate blood.</h3>
-                        </div>
+                        <b>Donate blood</b>
+                        <h3>Connect with people with the world <br></br>around you on Donate blood.</h3>
+                    </div>
                 </div>
                 <Footer />
             </div>

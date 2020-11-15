@@ -33,10 +33,11 @@ namespace Diplomski.Models
             {
                 Id = Id,
                 User = User.GeneralSelectPost(),
-                BloodType = BloodType,
-                City = City,
+                BloodType = BloodType.Name,
+                City = City.Name,
                 Description=Description,
-                Status=Status
+                Status=Status,
+                WhoNeedBlood=WhoNeedBlood
             };
         }
 

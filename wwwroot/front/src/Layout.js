@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Profile from './Profile'
 import Menu from './Menu'
 import Score from './Score'
+import ForgotPassword from './ForgotPassword'
 import {withRouter} from 'react-router';
 
 

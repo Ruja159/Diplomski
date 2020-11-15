@@ -44,6 +44,16 @@ namespace Diplomski.Forms
                 error = true;
                 errors.Add("lastName", "LastName field is empty");
             }
+            if (string.IsNullOrWhiteSpace(CityId))
+            {
+                error = true;
+                errors.Add("cityId", "City field is empty");
+            }
+             if (string.IsNullOrWhiteSpace(BloodTypeId))
+            {
+                error = true;
+                errors.Add("bloodTypeId", "Blood Type field is empty");
+            }
 
             if (string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(PasswordRepeated))
             {
