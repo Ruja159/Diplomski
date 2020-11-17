@@ -34,7 +34,9 @@ namespace Diplomski.Models
                 Id = Id,
                 User = User.GeneralSelectPost(),
                 BloodType = BloodType.Name,
+                BloodTypeId=BloodType.Id,
                 City = City.Name,
+                CityId= City.Id,
                 Description=Description,
                 Status=Status,
                 WhoNeedBlood=WhoNeedBlood

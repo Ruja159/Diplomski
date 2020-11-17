@@ -1,4 +1,5 @@
 import React from 'react';
+import {withRouter} from 'react-router'
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 
 class AddPostModal extends React.Component {
@@ -16,6 +17,7 @@ class AddPostModal extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handlePressKey= this.handlePressKey.bind(this)
     }
 
 
@@ -47,11 +49,20 @@ class AddPostModal extends React.Component {
             .then(response => {
                 response.json()
                     .then((jsonData) => {
-                        console.log(jsonData);
+                        this.props.updatePosts(jsonData);
+                        this.props.onHide();
                     });
             })
+           
 
 
+    }
+
+    handlePressKey(event){
+
+        if(event.keyCode===13){
+            this.handleSubmit();
+        }
     }
 
     componentDidMount() {
@@ -197,4 +208,4 @@ class AddPostModal extends React.Component {
     }
 }
 
-export default AddPostModal
+export default withRouter(AddPostModal)

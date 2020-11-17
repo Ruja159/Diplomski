@@ -10,11 +10,11 @@ class EditPost extends React.Component {
             bloodType: "",
             city: "",
             user: props.userId,
-            whoneedblood: "",
+            whoNeedBlood: "",
             bloodTypes: [],
             cities: [],
             posts: [],
-            postId: 0
+            // postId: 0
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -26,13 +26,13 @@ class EditPost extends React.Component {
     handleSubmit(postId) {
 
         const params = {
-            Id: postId,
-            UserId: this.state.user,
-            BloodTypeId: this.state.bloodType,
-            CityId: this.state.city,
-            Description: this.state.description,
-            Status: this.state.status,
-            WhoNeedBlood: this.state.whoneedblood
+            Id: this.state.posts.id,
+            UserId: this.state.posts.user.id,
+            BloodTypeId: this.state.posts.bloodTypeId + "",
+            CityId: this.state.posts.cityId + "",
+            Description: this.state.posts.description,
+            Status: this.state.posts.status,
+            WhoNeedBlood: this.state.posts.whoNeedBlood
 
 
         }
@@ -51,7 +51,8 @@ class EditPost extends React.Component {
             .then(response => {
                 response.json()
                     .then((jsonData) => {
-                        console.log(jsonData);
+                       this.props.onHide()
+                       this.props.editPosts()
                     });
             })
 
@@ -96,9 +97,9 @@ class EditPost extends React.Component {
         })
             .then(response => {
                 response.json()
-                    .then(json => { 
+                    .then(json => {
                         this.setState({ posts: json });
-                 })
+                    })
             })
     }
 
@@ -113,9 +114,29 @@ class EditPost extends React.Component {
 
     handleChange(event) {
         const { name, value } = event.target
-        this.setState({
-            [name]: value
-        })
+        
+        // this.setState({
+        //     posts: {name: value}
+        // })
+
+        if (name == "bloodTypeId"){
+            let newBTname; 
+            const bloodType = this.state.bloodTypes.filter(s => s.id == parseInt(value));
+
+            this.setState(prevState => ({
+                posts: {
+                    ...prevState.posts,
+                    bloodType: bloodType.length > 0 ? bloodType[0].name : ""
+                }
+            }))
+        }
+
+        this.setState(prevState => ({
+            posts: {                   // object that we want to update
+                ...prevState.posts,    // keep all other key-value pairs
+                [name]: value       // update the value of specific key
+            }
+        }));
     }
 
     render() {
@@ -148,6 +169,61 @@ class EditPost extends React.Component {
                                             onChange={this.handleChange}
                                             name="description"
                                         />
+                                    </Form.Group>
+
+                                    <Form.Group>
+                                        <Form.Label>Name who need blood</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Marko Markovic"
+                                            value={this.state.posts.whoNeedBlood}
+                                            onChange={this.handleChange}
+                                            name="whoNeedBlood"
+                                        />
+                                    </Form.Group>
+
+                                    <Form.Group>
+                                        <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">City</Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            className="my-1 mr-sm-2"
+                                            id="inlineFormCustomSelectPref"
+                                            name="cityId"
+                                            value={this.state.posts.cityId}
+                                            onChange={this.handleChange}
+                                            custom
+                                        >
+                                            {/* <option value={this.state.posts.cityId}>{this.state.posts.city}</option> */}
+                                            {this.state.cities.map((index) =>
+                                                <option value={index.id} >{index.name}</option>
+                                            )}
+
+
+
+                                        </Form.Control>
+                                    </Form.Group>
+
+
+                                    <Form.Group>
+                                        <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">Blood Type</Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            className="my-1 mr-sm-2"
+                                            id="inlineFormCustomSelectPref"
+                                            name="bloodTypeId"
+                                            value={this.state.posts.bloodTypeId}
+                                            onChange={this.handleChange}
+                                            custom
+                                        >
+                                            {/* <option value={this.state.posts.bloodTypeId}>{this.state.posts.bloodType}</option> */}
+                                            {this.state.bloodTypes.map((index) =>
+                                            
+                                                <option value={index.id} >{index.name}</option>
+                                            )}
+
+
+
+                                        </Form.Control>
                                     </Form.Group>
 
 

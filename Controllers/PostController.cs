@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using Diplomski.Forms;
+using Diplomski.Helpers;
 using Diplomski.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +26,7 @@ namespace Diplomski.Controllers
         public JsonResult List()
         {
             List<Post> post = _context.Posts.Include(u => u.User)
-            .Include(b => b.BloodType).Include(c => c.City).Where(p => p.Status == 0).ToList();
+            .Include(b => b.BloodType).Include(c => c.City).Where(p => p.Status == 0).OrderByDescending(p => p.AddedPost).ToList();
             return Json(post);
         }
 
@@ -56,7 +59,18 @@ namespace Diplomski.Controllers
             _context.Posts.Add(post);
             _context.SaveChanges();
 
-            return Json(post);
+            string neededTypeName = _context.BloodType.FirstOrDefault(b => b.Id == post.BloodTypeId).Name;
+            string body = "Vi mozete spasiti jedan zivot. Potrebna krvna grupa " + neededTypeName + ". " + post.Description;
+            string subject = "Potreba krvna grupa " + neededTypeName;
+
+           List<User> users =  _context.Users.Where(u => u.BloodTypeId == post.BloodTypeId).ToList();
+
+           foreach (User u in users){
+                EmailSender.SendEmail(u.Email, subject, body);
+           }
+
+
+            return List();
         }
 
         [HttpPut]
@@ -68,10 +82,22 @@ namespace Diplomski.Controllers
             post.BloodTypeId = Int32.Parse(postForm.BloodTypeId);
             post.CityId = Int32.Parse(postForm.CityId);
             post.Description = postForm.Description;
-            post.WhoNeedBlood= postForm.WhoNeedBlood;
+            post.WhoNeedBlood = postForm.WhoNeedBlood;
             post.Status = postForm.Status;
 
             _context.SaveChanges();
+            return Json(post);
+        }
+
+        [HttpDelete("{id}")]
+        public JsonResult Delete(int id)
+        {
+            Post post = _context.Posts.FirstOrDefault(p => p.Id == id);
+
+            _context.Posts.Remove(post);
+            _context.SaveChanges();
+
+
             return Json(post);
         }
 

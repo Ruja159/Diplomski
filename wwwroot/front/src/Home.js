@@ -1,9 +1,10 @@
 import React from 'react';
-import { Modal, Table, FormControl, Button, Form, Row, Col, ButtonToolbar, Card, Container } from 'react-bootstrap'
+import { Modal, Table, FormControl, Button, Form, Row, Col, ButtonToolbar, Card, Container, Dropdown } from 'react-bootstrap'
 // import { Navbar, Form, Container, Nav, FormControl, Button } from 'react-bootstrap'
 import AddPostModal from './AddPostModal'
 import EditPost from './EditPost';
 import TicketModal from './TicketModal'
+import DeletePost from './DeletePost'
 
 
 
@@ -16,12 +17,17 @@ class Home extends React.Component {
             addModalShow: false,
             addTicketShow: false,
             editPostShow: false,
-            idPost: ""
+            deletePostShow: false,
+            idPost: "",
+            idPostDelete: ""
         }
-        
-        this.addModalClose = () => this.setState({ addModalShow: false, addTicketShow: false, editPostShow: false })
+
+        this.addModalClose = () => this.setState({ addModalShow: false, addTicketShow: false, editPostShow: false, deletePostShow: false })
+        this.updatePosts = this.updatePosts.bind(this);
+        this.componentDidMount= this.componentDidMount.bind(this)
+        // this.editPosts = this.editPosts.bind(this)
     }
-    
+
     componentDidMount() {
         fetch("/api/post", {
             method: "GET",
@@ -33,18 +39,50 @@ class Home extends React.Component {
         })
             .then(response => {
                 response.json()
-                .then(json =>
-                    this.setState({ posts: json }))
-                })
-                
-            }
-            
+                    .then(json =>
+                        this.setState({ posts: json }))
+            })
+
+    }
+
+    updatePosts(data) {
+        this.setState({ posts: data });
+    }
+
+    // editPosts() {
+    //     fetch("/api/post", {
+    //         method: "GET",
+    //         // mode: "no-cors",
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json'
+    //         }
+    //     })
+    //         .then(response => {
+    //             response.json()
+    //                 .then(json =>
+    //                     this.setState({ posts: json }))
+    //         })
+
+    // }
+
+
+
     editItems(item) {
         if (this.props.userId == item.user.id) {
             return (<div>
-                <Button variant="link" className="probaj"
-                    onClick={() => this.setState({ idPost: item.id, editPostShow: true})}
-                >Izmjeni post</Button>
+                <Dropdown className="probaj">
+                    <Dropdown.Toggle variant="link" id="dropdown-basic">
+                        Izaberi opciju
+                 </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => this.setState({ idPost: item.id, editPostShow: true })}>Izmjeni post</Dropdown.Item>
+                        <Dropdown.Item onClick={() => this.setState({ idPostDelete: item.id, deletePostShow: true })}>Izbrisi post</Dropdown.Item>
+
+                    </Dropdown.Menu>
+                </Dropdown>
+
             </div>
             )
         }
@@ -65,7 +103,7 @@ class Home extends React.Component {
                         <Card.Header>Potrebna krv za {item.whoNeedBlood}</Card.Header>
                         <Card.Body >
                             {this.editItems(item)}
-                            <Card.Title>Potrebna {item.bloodType.name} , Grad {item.city.name}</Card.Title>
+                            <Card.Title>Potrebna {item.bloodType.name} , Grad {item.city.name} ID POST {item.id}</Card.Title>
 
                             <Card.Text>
                                 {item.description}
@@ -113,7 +151,7 @@ class Home extends React.Component {
                             onClick={() => this.setState({ addModalShow: true })}
                         >Add Post</Button>
 
-                        <AddPostModal show={this.state.addModalShow}
+                        <AddPostModal show={this.state.addModalShow} updatePosts={this.updatePosts}
                             onHide={this.addModalClose} userId={this.props.userId} />
                     </ButtonToolbar>
                     </Col>
@@ -132,8 +170,8 @@ class Home extends React.Component {
 
 
                 {listItems}
-                <EditPost postId={this.state.idPost}   onHide={this.addModalClose}  show={this.state.editPostShow} />
-
+                <EditPost postId={this.state.idPost} onHide={this.addModalClose} show={this.state.editPostShow} editPosts={this.componentDidMount}/>
+                <DeletePost postId={this.state.idPostDelete} onHide={this.addModalClose} show={this.state.deletePostShow} deletePosts={this.componentDidMount} />
             </Container>
         );
     }
