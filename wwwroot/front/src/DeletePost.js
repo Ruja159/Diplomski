@@ -34,7 +34,7 @@ class DeletePost extends React.Component {
         })
         .then(response => {
             response.json()
-                .then((jsonData) => {
+                .then(() => {
                    this.props.onHide();
                    this.props.deletePosts()
                 });

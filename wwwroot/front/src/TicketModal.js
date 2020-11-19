@@ -5,7 +5,11 @@ class TicketModal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            user: []
+            user: [],
+            postId:"",
+            bloodType: "",
+            city:""
+         
         }
     }
 
@@ -25,6 +29,14 @@ class TicketModal extends React.Component {
             })
 
     }
+    componentWillReceiveProps(newProps) {
+        this.setState({
+            postId:  newProps.postId,
+            bloodType: newProps.bloodType,
+            city: newProps.city
+        })
+    }
+   
 
     render() {
         return (
@@ -42,8 +54,8 @@ class TicketModal extends React.Component {
                 <Modal.Body>
                     <h4>{this.state.user.name}  {this.state.user.lastName}</h4>
                     <p>
-                        Korisnik {this.state.user.name}  {this.state.user.lastName} se dobrovoljno prijavio za doniranje {this.props.bloodTypeId}
-                        <br /> Mjesto: {this.props.cityName} <br />
+                        Korisnik {this.state.user.name}  {this.state.user.lastName} se dobrovoljno prijavio za doniranje <b>{this.state.bloodType}</b>
+                        <br /> Mjesto: <b> {this.state.city} </b>  <br />
                         Bolnica:treba napraviti <br />
                         Ambulanta: isto <br />
                         Vrijeme: neko

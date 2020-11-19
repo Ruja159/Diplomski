@@ -19,10 +19,15 @@ class Home extends React.Component {
             editPostShow: false,
             deletePostShow: false,
             idPost: "",
-            idPostDelete: ""
+            idPostDelete: "",
+            idPostTicket: "",
+            bloodType: "",
+            city:"",
+            generalTicket: {}
         }
 
-        this.addModalClose = () => this.setState({ addModalShow: false, addTicketShow: false, editPostShow: false, deletePostShow: false })
+        this.addModalClose = () => this.setState({ addModalShow: false, addTicketShow: false,
+             editPostShow: false, deletePostShow: false })
         this.updatePosts = this.updatePosts.bind(this);
         this.componentDidMount= this.componentDidMount.bind(this)
         // this.editPosts = this.editPosts.bind(this)
@@ -77,8 +82,10 @@ class Home extends React.Component {
                  </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => this.setState({ idPost: item.id, editPostShow: true })}>Izmjeni post</Dropdown.Item>
-                        <Dropdown.Item onClick={() => this.setState({ idPostDelete: item.id, deletePostShow: true })}>Izbrisi post</Dropdown.Item>
+                        <Dropdown.Item onClick={() => this.setState({ idPost: item.id, editPostShow: true })}>
+                            Izmjeni post</Dropdown.Item>
+                        <Dropdown.Item onClick={() => this.setState({ idPostDelete: item.id, deletePostShow: true })}
+                        >Izbrisi post</Dropdown.Item>
 
                     </Dropdown.Menu>
                 </Dropdown>
@@ -111,13 +118,16 @@ class Home extends React.Component {
 
                             <Button
                                 variant="link"
-                                onClick={() => this.setState({ addTicketShow: true })}>
+                               onClick={() => this.setState({ idPostTicket: item.id, addTicketShow: true,
+                                city: item.city.name,
+                                generalTicket: item,
+                                bloodType: item.bloodType.name})}>
                                 Prijavi se
                             </Button>
                             <TicketModal
                                 show={this.state.addTicketShow}
-                                onHide={this.addModalClose} userId={this.props.userId} bloodTypeId={item.bloodType.name}
-                                cityName={item.city.name}
+                                onHide={this.addModalClose} userId={this.props.userId} postId={this.state.idPostTicket}
+                                bloodType={this.state.bloodType} city={this.state.city} generalTicket={this.state.generalTicket}
                             />
                         </Card.Body>
                         <Card.Footer className="text-muted">
@@ -170,8 +180,11 @@ class Home extends React.Component {
 
 
                 {listItems}
-                <EditPost postId={this.state.idPost} onHide={this.addModalClose} show={this.state.editPostShow} editPosts={this.componentDidMount}/>
-                <DeletePost postId={this.state.idPostDelete} onHide={this.addModalClose} show={this.state.deletePostShow} deletePosts={this.componentDidMount} />
+                <EditPost postId={this.state.idPost} onHide={this.addModalClose} 
+                show={this.state.editPostShow} editPosts={this.componentDidMount}/>
+
+                <DeletePost postId={this.state.idPostDelete} onHide={this.addModalClose}
+                 show={this.state.deletePostShow} deletePosts={this.componentDidMount} />
             </Container>
         );
     }

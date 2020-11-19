@@ -63,11 +63,12 @@ namespace Diplomski.Controllers
             string body = "Vi mozete spasiti jedan zivot. Potrebna krvna grupa " + neededTypeName + ". " + post.Description;
             string subject = "Potreba krvna grupa " + neededTypeName;
 
-           List<User> users =  _context.Users.Where(u => u.BloodTypeId == post.BloodTypeId).ToList();
+            List<User> users = _context.Users.Where(u => u.BloodTypeId == post.BloodTypeId).ToList();
 
-           foreach (User u in users){
+            foreach (User u in users)
+            {
                 EmailSender.SendEmail(u.Email, subject, body);
-           }
+            }
 
 
             return List();
@@ -86,7 +87,7 @@ namespace Diplomski.Controllers
             post.Status = postForm.Status;
 
             _context.SaveChanges();
-            return Json(post);
+            return List();
         }
 
         [HttpDelete("{id}")]
@@ -97,8 +98,7 @@ namespace Diplomski.Controllers
             _context.Posts.Remove(post);
             _context.SaveChanges();
 
-
-            return Json(post);
+            return List();
         }
 
 
